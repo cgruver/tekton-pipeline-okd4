@@ -223,6 +223,8 @@ objects:
               args:
                 - |-
                   echo Rolling out $(params.appName)
+                  DESTINATION_IMAGE="image-registry.openshift-image-registry.svc:5000/$(context.taskRun.namespace)/$(params.appName):latest"
+                  oc set image deployment/$(params.appName) $(params.appName)=${DESTINATION_IMAGE}
                   oc rollout restart deployment/$(params.appName)
                   echo -----------------------------------
 

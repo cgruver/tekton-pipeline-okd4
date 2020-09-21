@@ -70,8 +70,10 @@ data:
 ```
 
 ```bash
+ssh-keygen -t rsa -f ~/.ssh/git.id_rsa -N ''
+
 GIT_HOST=github.com
-SSH_KEY=$(cat ~/.ssh/id_rsa | base64 )
+SSH_KEY=$(cat ~/.ssh/git.id_rsa | base64 )
 KNOWN_HOSTS=$(ssh-keyscan ${GIT_HOST} | base64 )
 cat << EOF > git-secret.yml
 apiVersion: v1
@@ -86,7 +88,8 @@ data:
     known_hosts: ${KNOWN_HOSTS}
 EOF
 
-oc apply -f git-secret.yml
+oc apply -f git-secret.yml -n your-project
+rm -f git-secret.yml
 oc patch sa pipeline --type merge --patch '{"secrets":[{"name":"git-secret"}]}'
 oc adm policy add-scc-to-user nonroot -z pipeline
 ```
