@@ -15,11 +15,18 @@ Tekton:
 Install Tekton Operator:
 
 ```bash
-git clone https://github.com/openshift/tektoncd-pipeline-operator.git
-cd tektoncd-pipeline-operator
-oc apply -f deploy/crds/*_crd.yaml
-oc apply -f deploy/ -n openshift-operators
-oc apply -f deploy/crds/*_cr.yaml
+podman pull quay.io/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1
+podman tag quay.io/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1 ${LOCAL_REGISTRY}/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1
+podman push ${LOCAL_REGISTRY}/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1
+
+cd operator
+oc apply -f operator_v1alpha1_config_crd.yaml
+oc apply -f role.yaml -n openshift-operators
+oc apply -f role_binding.yaml -n openshift-operators
+oc apply -f service_account.yaml -n openshift-operators
+sed -i "s|--LOCAL_REGISTRY--|${LOCAL_REGISTRY}|g" operator-disconnected.yaml
+oc apply -f operator-disconnected.yaml -n openshift-operators
+oc apply -f operator_v1alpha1_config_cr.yaml
 ```
 
 Install Namespace Configuration Operator:

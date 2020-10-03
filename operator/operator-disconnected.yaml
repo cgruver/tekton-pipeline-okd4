@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openshift-pipelines-operator
+  namespace: openshift-operators
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: openshift-pipelines-operator
+  template:
+    metadata:
+      labels:
+        name: openshift-pipelines-operator
+    spec:
+      serviceAccountName: openshift-pipelines-operator
+      containers:
+      - name: openshift-pipelines-operator
+        image: --LOCAL_REGISTRY--/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1
+        command:
+        - openshift-pipelines-operator
+        - --recursive
+        imagePullPolicy: Always
+        env:
+        - name: WATCH_NAMESPACE
+          value: ""
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OPERATOR_NAME
+          value: "openshift-pipelines-operator"
