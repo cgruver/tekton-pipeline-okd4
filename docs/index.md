@@ -1,4 +1,10 @@
-# WIP
+# WIP (Documentation Incomplete)
+
+The files for this installation are modified from: https://github.com/openshift/tektoncd-pipeline-operator
+
+If you are installing in an OKD cluster that does not have internet access, then follow these instructions to install Tekton:
+
+[Tekton Disconnected Install](pages/disconnected-install.md)
 
 Create a maven group in Nexus: homelab-central
 
