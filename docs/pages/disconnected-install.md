@@ -1,4 +1,4 @@
-# WIP: Not ready to use
+# WIP - Testing on OKD 4.5
 
 The files for this installation are modified from: https://github.com/openshift/tektoncd-pipeline-operator
 

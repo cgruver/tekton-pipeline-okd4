@@ -1,5 +1,5 @@
 # tekton-pipeline-okd4
-# WIP - Not ready for use
+# WIP - Testing on OKD 4.5
 
 Template Driven Tekton Pipeline for OKD or OCP 4 - Spring Boot, Quarkus, & Angular
 
