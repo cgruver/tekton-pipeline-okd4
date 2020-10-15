@@ -21,30 +21,17 @@ Tekton:
 Install Tekton Operator:
 
 ```bash
-podman pull quay.io/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1
-podman tag quay.io/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1 ${LOCAL_REGISTRY}/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1
-podman push ${LOCAL_REGISTRY}/openshift-pipeline/openshift-pipelines-operator-controller:v0.15.2-1
-
-cd operator
-oc apply -f operator_v1alpha1_config_crd.yaml
-oc apply -f role.yaml -n openshift-operators
-oc apply -f role_binding.yaml -n openshift-operators
-oc apply -f service_account.yaml -n openshift-operators
-sed -i "s|--LOCAL_REGISTRY--|${LOCAL_REGISTRY}|g" operator-disconnected.yaml
-oc apply -f operator-disconnected.yaml -n openshift-operators
-oc apply -f operator_v1alpha1_config_cr.yaml
+git clone https://github.com/cgruver/tekton-pipeline-okd4.git
+cd tekton-pipeline-okd4
+oc apply -f ./operator/operator_v1alpha1_config_crd.yaml
+oc apply -f ./operator/role.yaml -n openshift-operators
+oc apply -f ./operator/role_binding.yaml -n openshift-operators
+oc apply -f ./operator/service_account.yaml -n openshift-operators
+oc apply -f ./operator/operator.yaml -n openshift-operators
+oc apply -f ./operator/operator_v1alpha1_config_cr.yaml
 ```
 
-Install Namespace Configuration Operator:
-
-```bash
-git clone https://github.com/redhat-cop/namespace-configuration-operator.git
-cd namespace-configuration-operator
-oc adm new-project namespace-configuration-operator
-oc apply -f deploy/olm-deploy -n namespace-configuration-operator
-```
-
-Set images in local registry:
+Create pipeline images and push to the internal OKD registry:
 
 ```bash
 IMAGE_REGISTRY=$(oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
@@ -54,8 +41,7 @@ podman pull quay.io/openshift/origin-cli:4.5.0
 podman tag quay.io/openshift/origin-cli:4.5.0 ${IMAGE_REGISTRY}/openshift/origin-cli:4.5.0
 podman push ${IMAGE_REGISTRY}/openshift/origin-cli:4.5.0 --tls-verify=false
 
-git clone https://github.com/cgruver/tekton-pipeline-okd4.git
-cd tekton-pipeline-okd4
+
 podman build -t ${IMAGE_REGISTRY}/openshift/jdk-ubi-minimal:8.1 jdk-ubi-minimal/
 podman push ${IMAGE_REGISTRY}/openshift/jdk-ubi-minimal:8.1 --tls-verify=false
 
@@ -64,7 +50,15 @@ podman push ${IMAGE_REGISTRY}/openshift/maven-ubi-minimal:3.6.3-jdk-11 --tls-ver
 
 podman build -t ${IMAGE_REGISTRY}/openshift/buildah:noroot buildah-noroot/
 podman push ${IMAGE_REGISTRY}/openshift/buildah:noroot --tls-verify=false
+```
 
+Install Namespace Configuration Operator:
+
+```bash
+git clone https://github.com/redhat-cop/namespace-configuration-operator.git
+cd namespace-configuration-operator
+oc adm new-project namespace-configuration-operator
+oc apply -f deploy/olm-deploy -n namespace-configuration-operator
 ```
 
 Generate a GitHub Personal Access Token
