@@ -84,8 +84,8 @@ Or, use SSH access:
 ssh-keygen -t rsa -f ~/.ssh/git.id_rsa -N ''
 
 GIT_HOST=github.com
-SSH_KEY=$(cat ~/.ssh/git.id_rsa | base64 )
-KNOWN_HOSTS=$(ssh-keyscan ${GIT_HOST} | base64 )
+SSH_KEY=$(cat ~/.ssh/git.id_rsa | base64 -w0 )
+KNOWN_HOSTS=$(ssh-keyscan ${GIT_HOST} | base64 -w0 )
 cat << EOF > git-secret.yml
 apiVersion: v1
 kind: Secret
@@ -100,6 +100,7 @@ data:
 EOF
 
 oc apply -f git-secret.yml
+rm -f git-secret.yml
 oc patch sa pipeline --type merge --patch '{"secrets":[{"name":"git-secret"}]}'
 oc adm policy add-scc-to-user nonroot -z pipeline
 ```

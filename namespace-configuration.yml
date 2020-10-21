@@ -20,6 +20,13 @@ objects:
         pipeline: tekton
     templates:
     - objectTemplate: |
+        apiVersion: v1
+        kind: ServiceAccount
+        metadata:
+          name: pipeline
+          namespace: {{ .Name }}
+
+    - objectTemplate: |
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         metadata:
