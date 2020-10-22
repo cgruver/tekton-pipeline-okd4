@@ -4,11 +4,11 @@ metadata:
   annotations:
     description: "Build and Deploy template for Quarkus applications built using a Tekton Pipeline"
     iconClass: icon-java
-    openshift.io/display-name: "Quarkus JVM Build & Deploy Pipeline for DEV"
+    openshift.io/display-name: "Quarkus Fast Jar Build & Deploy Pipeline for DEV"
     template.openshift.io/bindable: "false"
     tags: "java,quarkus"
     version: "1.0"
-  name: quarkus-jvm-pipeline-dev
+  name: quarkus-fast-jar-pipeline-dev
 objects:
   - apiVersion: v1
     kind: ImageStream
@@ -24,7 +24,7 @@ objects:
     kind: Service
     metadata:
       annotations:
-        description: ${APP_NAME} Quarkus JVM Service.
+        description: ${APP_NAME} Quarkus Fast Jar Service.
       labels:
         app: ${APP_NAME}
       name: ${APP_NAME}
@@ -41,7 +41,7 @@ objects:
     kind: Deployment
     metadata:
       annotations:
-        description: ${APP_NAME} Quarkus JVM Deployment Configuration.
+        description: ${APP_NAME} Quarkus Fast Jar Deployment Configuration.
       labels:
         app: ${APP_NAME}
       name: ${APP_NAME}
@@ -90,7 +90,7 @@ objects:
           containers: 
           - env:
             - name: JAVA_OPTIONS
-              value: '-Djavax.net.ssl.trustStore=/var/run/secrets/java.io/keystores/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit -Xmx1024m'
+              value: '-Djavax.net.ssl.trustStore=/var/run/secrets/java.io/keystores/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit -Xmx256m'
             envFrom:
             - configMapRef:
                 name: ${APP_NAME}-cm 
@@ -141,7 +141,7 @@ objects:
       name: ${APP_NAME}-pipeline-run
     spec:
       pipelineRef: 
-        name: build-and-deploy-quarkus-jvm-app
+        name: build-and-deploy-quarkus-fast-jar-app
       params:
       - name: appName
         value: ${APP_NAME}
@@ -182,7 +182,7 @@ objects:
           spec:
             serviceAccountName: pipeline
             pipelineRef: 
-              name: build-and-deploy-quarkus-jvm-app
+              name: build-and-deploy-quarkus-fast-jar-app
             params:
             - name: appName
               value: $(tt.params.appName)
