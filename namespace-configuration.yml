@@ -219,7 +219,7 @@ objects:
               default: "false"
           steps:
             - name: prep-build
-              image: image-registry.openshift-image-registry.svc:5000/openshift/maven-ubi-minimal:3.6.3-jdk-11
+              image: image-registry.openshift-image-registry.svc:5000/openshift/mvn-jdk-mandrel:3.6.3-jdk11-20.1.0.2
               imagePullPolicy: Always
               script: |
                 git clone -b $(params.git-branch) --single-branch $(params.git-repo) /workspace/source
@@ -231,7 +231,7 @@ objects:
                   value: /tekton/home
               workingDir: "/"
             - name: build-sources
-              image: image-registry.openshift-image-registry.svc:5000/openshift/maven-ubi-minimal:3.6.3-jdk-11
+              image: image-registry.openshift-image-registry.svc:5000/openshift/mvn-jdk-mandrel:3.6.3-jdk11-20.1.0.2
               imagePullPolicy: Always
               command:
                 - mvn
@@ -320,7 +320,7 @@ objects:
               default: "false"
           steps:
             - name: prep-build
-              image: image-registry.openshift-image-registry.svc:5000/openshift/maven-ubi-minimal:3.6.3-jdk-11
+              image: image-registry.openshift-image-registry.svc:5000/openshift/mvn-jdk-mandrel:3.6.3-jdk11-20.1.0.2
               imagePullPolicy: Always
               script: |
                 git clone -b $(params.git-branch) --single-branch $(params.git-repo) /workspace/source
@@ -332,7 +332,7 @@ objects:
                   value: /tekton/home
               workingDir: "/"
             - name: build-sources
-              image: image-registry.openshift-image-registry.svc:5000/openshift/maven-ubi-minimal:3.6.3-jdk-11
+              image: image-registry.openshift-image-registry.svc:5000/openshift/mvn-jdk-mandrel:3.6.3-jdk11-20.1.0.2
               imagePullPolicy: Always
               command:
                 - mvn
@@ -424,7 +424,7 @@ objects:
               default: "false"
           steps:
             - name: prep-build
-              image: image-registry.openshift-image-registry.svc:5000/openshift/maven-ubi-minimal:3.6.3-jdk-11
+              image: image-registry.openshift-image-registry.svc:5000/openshift/mvn-jdk-mandrel:3.6.3-jdk11-20.1.0.2
               imagePullPolicy: Always
               script: |
                 git clone -b $(params.git-branch) --single-branch $(params.git-repo) /workspace/source
@@ -436,7 +436,7 @@ objects:
                   value: /tekton/home
               workingDir: "/"
             - name: build-sources
-              image: image-registry.openshift-image-registry.svc:5000/openshift/maven-ubi-minimal:3.6.3-jdk-11
+              image: image-registry.openshift-image-registry.svc:5000/openshift/mvn-jdk-mandrel:3.6.3-jdk11-20.1.0.2
               imagePullPolicy: Always
               command:
                 - mvn
@@ -511,7 +511,7 @@ objects:
               default: "master"
           steps:
             - name: prep-build
-              image: image-registry.openshift-image-registry.svc:5000/openshift/maven-ubi-minimal:3.6.3-jdk-11
+              image: image-registry.openshift-image-registry.svc:5000/openshift/mvn-jdk-mandrel:3.6.3-jdk11-20.1.0.2
               imagePullPolicy: Always
               script: |
                 git clone -b $(params.git-branch) --single-branch $(params.git-repo) /workspace/source
