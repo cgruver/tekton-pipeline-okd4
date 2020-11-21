@@ -11,6 +11,7 @@ quay.io/openshift-pipeline/tektoncd-pipeline-webhook:v0.16.3
 quay.io/openshift-pipeline/tektoncd-triggers-webhook:v0.8.1
 quay.io/openshift-pipeline/tektoncd-triggers-eventlistenersink:v0.8.1
 quay.io/openshift-pipeline/tektoncd-triggers-controller:v0.8.1
+quay.io/openshift-pipeline/s2i:nightly
 registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8
 quay.io/buildah/stable:v1.15.1
 quay.io/skopeo/stable:v1.1.1
